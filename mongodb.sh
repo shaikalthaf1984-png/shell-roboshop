@@ -38,3 +38,4 @@ VALIDATE(){
  VALIDATE $? "Enable mongodb"
 
  systemctl start mongod
+ VALIDATE $? "Start mongodb"
