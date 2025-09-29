@@ -25,8 +25,7 @@ VALIDATE(){
     else
         echo -e "Installing $2...$G success $N" | tee -a $LOG_FILE
     fi
-    
-}
+   }
  
  cp mongo.repo /etc/yum.repos.d/mongo.repo
  VALIDATE $? "Adding mongo repo"
