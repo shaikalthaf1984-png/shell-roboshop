@@ -11,7 +11,7 @@ SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
 
     mkdir -p $LOGS_FOLDER
-    echo "script started excuted is: $(date)"
+    echo "script started excuted at: $(date)"
 
 if [ $USER_ID -ne 0 ]; then
     echo "ERROR :: Please run this script with root privelege"
@@ -20,7 +20,7 @@ fi
 
 VALIDATE(){
     if [ $1 -ne 0 ]; then
-        echo -e "Installing $2...$R is failure $N"
+        echo -e "Installing $2...$R failure $N"
         exit 1
     else
         echo -e "Installing $2...$G success $N"
