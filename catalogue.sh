@@ -42,8 +42,12 @@ VALIDATE(){ # functions receive inputs through args just like shell script args
     dnf install nodejs -y &>>$LOG_FILE
     VALIDATE $? "installing nodejs"
 
+    id roboshop
+    if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
     VALIDATE $? "Creating System User"
+    else
+        echo "User already exist....$Y  SKIPPING $N"
 
     mkdir /app 
     VALIDATE $? "Creating App Directory"
