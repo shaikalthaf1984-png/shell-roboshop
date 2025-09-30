@@ -46,6 +46,7 @@ VALIDATE(){ # functions receive inputs through args just like shell script args
     VALIDATE $? "Creating System User"
     else
         echo -e "User already exist....$Y  SKIPPING $N"
+    fi
 
     mkdir -p /app 
     VALIDATE $? "Creating App Directory"
