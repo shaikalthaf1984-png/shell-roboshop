@@ -72,8 +72,8 @@ VALIDATE(){ # functions receive inputs through args just like shell script args
     dnf install mongodb-mongosh -y &>>$LOG_FILE
     VALIDATE $? "Install MongoDB client"
 
-    #mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOG_FILE
-    #VALIDATE $? "Load catalogue products"
+    mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOG_FILE
+    VALIDATE $? "Load catalogue products"
 
     systemctl restart catalogue
     VALIDATE $? "Restart catalgoue"
