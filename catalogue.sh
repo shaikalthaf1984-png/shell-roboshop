@@ -54,6 +54,9 @@ VALIDATE(){ # functions receive inputs through args just like shell script args
     VALIDATE $? "Downloading catalogue application"
     cd /app 
     VALIDATE $? "Changing to app directory"
+
+    rm -rf /app/*
+    VALIDATE $? "Removing exiting code"
     unzip /tmp/catalogue.zip &>>$LOG_FILE
     VALIDATE $? "unzip to catalogue"
     npm install &>>$LOG_FILE
