@@ -60,7 +60,7 @@ VALIDATE(){ # functions receive inputs through args just like shell script args
     npm install &>>$LOG_FILE
     VALIDATE $? "Install dependencies"
 
-    cp catalogue.service /etc/systemd/system/catalogue.service
+    cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
     VALIDATE $? "copy systemctl service"
 
     systemctl daemon-reload
