@@ -9,7 +9,7 @@ N="\e[0m"
 LOGS_FOLDER="/var/log/shell-roboshop"
 SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
 SCRIPT_DIR=$PWD
-MONGODB_HOST=mongodb.althaf84.org
+MONGODB_HOST="mongodb.althaf84.org"
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log" # /var/log/shell-script/16-logs.log
 START_TIME=$(date +%s)
 
@@ -73,7 +73,7 @@ VALIDATE(){ # functions receive inputs through args just like shell script args
 
     cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
     VALIDATE $? "copy mongo repo"
-    
+
     dnf install mongodb-mongosh -y &>>$LOG_FILE
     VALIDATE $? "Install MongoDB client"
 
