@@ -80,13 +80,24 @@ VALIDATE $? "Copy mongo repo"
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "Install MongoDB client"
 
+#INDEX=$(mongosh mongodb.althaf84.org --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')")
+#if [ $INDEX -le 0 ]; then
+    #mongosh --host mongodb.althaf84.org </app/db/master-data.js &>>$LOG_FILE
+    #VALIDATE $? "Load catalogue products"
+#else
+ #   echo -e "Catalogue products already loaded ... $Y SKIPPING $N"
+#fi
 INDEX=$(mongosh mongodb.althaf84.org --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')")
-if [ $INDEX -le 0 ]; then
-    mongosh --host mongodb.althaf84.org </app/db/master-data.js &>>$LOG_FILE
-    VALIDATE $? "Load catalogue products"
-else
-    echo -e "Catalogue products already loaded ... $Y SKIPPING $N"
+if [ -z "$INDEX" ]; then
+  echo "Failed to connect to MongoDB or get DB index."
+  exit 1
 fi
+
+if [ "$INDEX" -le 0 ]; then
+  echo "Database 'catalogue' not found"
+  exit 1
+fi
+
 
 systemctl restart catalogue
 VALIDATE $? "Restarted catalogue"
