@@ -57,18 +57,23 @@ VALIDATE(){ # functions receive inputs through args just like shell script args
 
     rm -rf /app/*
     VALIDATE $? "Removing exiting code"
+
     unzip /tmp/catalogue.zip &>>$LOG_FILE
     VALIDATE $? "unzip to catalogue"
+
     npm install &>>$LOG_FILE
     VALIDATE $? "Install dependencies"
+
     cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
     VALIDATE $? "copy systemctl service"
+
     systemctl daemon-reload
     systemctl enable catalogue &>>$LOG_FILE
     VALIDATE $? "Enable catalogue"
 
     cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
     VALIDATE $? "copy mongo repo"
+    
     dnf install mongodb-mongosh -y &>>$LOG_FILE
     VALIDATE $? "Install MongoDB client"
 
