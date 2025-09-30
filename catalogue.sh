@@ -47,9 +47,9 @@ VALIDATE(){ # functions receive inputs through args just like shell script args
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
     VALIDATE $? "Creating System User"
     else
-        echo "User already exist....$Y  SKIPPING $N"
+        echo -e "User already exist....$Y  SKIPPING $N"
 
-    mkdir /app 
+    mkdir -p /app 
     VALIDATE $? "Creating App Directory"
 
     curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip 
@@ -82,3 +82,4 @@ VALIDATE(){ # functions receive inputs through args just like shell script args
 
     systemctl restart catalogue
     VALIDATE $? "Restart catalgoue"
+    
