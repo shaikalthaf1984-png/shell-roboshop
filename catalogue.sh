@@ -9,7 +9,7 @@ N="\e[0m"
 LOGS_FOLDER="/var/log/shell-roboshop"
 SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
 SCRIPT_DIR=$PWD
-MONGODB_HOST="mongodb.althaf84.org"
+MONGODB_HOST=mongodb.althaf84.org
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log" # /var/log/shell-script/16-logs.log
 START_TIME=$(date +%s)
 
@@ -52,6 +52,7 @@ VALIDATE(){ # functions receive inputs through args just like shell script args
     VALIDATE $? "Creating App Directory"
     curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip 
     VALIDATE $? "Downloading catalogue application"
+
     cd /app 
     VALIDATE $? "Changing to app directory"
 
