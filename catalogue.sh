@@ -8,7 +8,7 @@ N="\e[0m"
 
 LOGS_FOLDER="/var/log/shell-roboshop"
 SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
-SCRIPT_DIR=$PWD
+SCRIPT_DIR=$PwD
 MONGODB_HOST=mongodb.althaf84.org
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log" # /var/log/shell-script/16-logs.log
 
@@ -76,8 +76,8 @@ VALIDATE $? "Copy mongo repo"
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "Install MongoDB client"
 
-#mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOG_FILE
-#VALIDATE $? "Load catalogue products"
+mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOG_FILE
+VALIDATE $? "Load catalogue products"
 
 systemctl restart catalogue
 VALIDATE $? "Restarted catalogue"
