@@ -67,7 +67,7 @@ VALIDATE(){ # functions receive inputs through args just like shell script args
     systemctl enable catalogue &>>$LOG_FILE
     VALIDATE $? "Enable catalogue"
 
-    cp mongo.repo /etc/yum.repos.d/mongo.repo
+    cp $SCRIP_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
     VALIDATE $? "copy mongo repo"
 
     dnf install mongodb-mongosh -y &>>$LOG_FILE
