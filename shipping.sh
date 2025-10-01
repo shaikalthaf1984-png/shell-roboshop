@@ -11,6 +11,7 @@ SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
 SCRIPT_DIR=$PWD
 MONGODB_HOST=mongodb.althaf84.org
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log" # /var/log/shell-script/16-logs.log
+MYSQL_HOST=mysql.althaf84.org
 
 mkdir -p $LOGS_FOLDER
 echo "Script started executed at: $(date)" | tee -a $LOG_FILE
@@ -66,3 +67,13 @@ systemctl enable shipping
 systemctl start shipping
 
 dnf install mysql -y 
+
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 -e 'use mysql'
+if [ $? -ne 0 ]; then
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql
+else
+echo -e "Shipping data is already loadded....$Y SKIPPING $N"
+fi
+
