@@ -53,7 +53,7 @@ VALIDATE $? "Changing to app directory"
 rm -rf /app/*
 VALIDATE $? "Removing existing code"
 
-unzip /tmp/shpping.zip &>>$LOG_FILE
+unzip /tmp/shipping.zip &>>$LOG_FILE
 VALIDATE $? "unzip shipping"
  
 mvn clean package 
@@ -64,3 +64,5 @@ cp $SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service
 systemctl daemon-reload
 systemctl enable shipping 
 systemctl start shipping
+
+dnf install mysql -y 
