@@ -7,6 +7,7 @@ N="\e[0m"
 LOGS_FOLDER="/var/log/shell-roboshop"
 SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log" # /var/log/shell-script/16-logs.log
+START_TIME=$(dated +%s)
 
 mkdir -p $LOGS_FOLDER
 echo "Script started executed at: $(date)" | tee -a $LOG_FILE
@@ -24,3 +25,25 @@ VALIDATE(){ # functions receive inputs through args just like shell script args
         echo -e "$2 ... $G SUCCESS $N" | tee -a $LOG_FILE
     fi
 }
+
+    dnf module disable redis -y &>>$LOG_FILE
+    VALIDATE $? "Disabling defalult redis"
+
+    dnf module enable redis:7 -y &>>$LOG_FILE
+    VALIDATE $? "Enable redis7"
+
+    dnf install redis -y &>>$LOG_FILE
+    VALIDATE $? "Installing redis" 
+
+    sed -i -e 's/127.0.0.1/0.0.0.0/g' -e '/protected-mode/ c protected-mode no' /etc/redis/redis.conf
+    VALIDATE $? "Allowing remote connections to redis"
+
+    systemctl enable redis &>>$LOG_FILE
+    VALIDATE $? "Enabling redis"
+
+    systemctl start redis &>>$LOG_FILE
+    VALIDATE $? "Starting redis" 
+
+    END_TIME=$(dated +%s)
+    TOTAL_TIME=$(($END_TIME-$START_TIME))
+    echo -e "Script executed in: $Y $TOTAL_TIME seconds $N"
