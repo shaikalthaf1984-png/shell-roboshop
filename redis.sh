@@ -45,5 +45,5 @@ VALIDATE(){ # functions receive inputs through args just like shell script args
     VALIDATE $? "Starting redis" 
 
     END_TIME=$(dated +%s)
-    TOTAL_TIME=$(($END_TIME-$START_TIME))
+    TOTAL_TIME=$(( $END_TIME-$START_TIME ))
     echo -e "Script executed in: $Y $TOTAL_TIME seconds $N"
