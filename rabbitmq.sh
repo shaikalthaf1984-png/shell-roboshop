@@ -10,6 +10,7 @@ LOGS_FOLDER="/var/log/shell-roboshop"
 SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log" # /var/log/shell-script/16-logs.log
 START_TIME=$(date +%s)
+SCRIPT_DIR=$PWD
 
 mkdir -p $LOGS_FOLDER
 echo "Script started executed at: $(date)" | tee -a $LOG_FILE
@@ -28,18 +29,26 @@ VALIDATE(){ # functions receive inputs through args just like shell script args
     fi
 }
 
-    dnf install mysql-server -y &>>$LOG_FILE
-    VALIDATE $? "Installing mysql server"
+    cp $SCRIPT_DIR/rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo
+    VALIDATE $? "Adding rabbitmq repo"
 
-    systemctl enable mysqld &>>$LOG_FILE
-    VALIDATE $? "Enabling mysqld"
+    dnf install rabbitmq-server -y
+    VALIDATE $? "Installling rabbitmq server"
 
-    systemctl start mysqld &>>$LOG_FILE
-    VALIDATE $? "Starting mysqld"
+    systemctl enable rabbitmq-server
+    VALIDATE $? "Enabling rabbitmq server"
 
-    mysql_secure_installation --set-root-pass RoboShop@1 &>>$LOG_FILE
-    VALIDATE $? "Setting root passwd"
+    systemctl start rabbitmq-server
+    VALIDATED $? "starting rabbitmq server"
+
+    rabbitmqctl add_user roboshop roboshop123
+
+    rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+    VALIDATE $? "Setting up permissions"
 
     END_TIME=$(date +%s)
     TOTAL_TIME=$(( $END_TIME-$START_TIME ))
     echo -e "Script executed in: $Y $TOTAL_TIME seconds $N"
+
+
+ 
