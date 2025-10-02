@@ -13,7 +13,6 @@ MONGODB_HOST=mongodb.althaf84.org
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log" # /var/log/shell-script/16-logs.log
 MYSQL_HOST=mysql.althaf84.org
 
-
 mkdir -p $LOGS_FOLDER
 echo "Script started executed at: $(date)" | tee -a $LOG_FILE
 
@@ -31,10 +30,9 @@ VALIDATE(){ # functions receive inputs through args just like shell script args
     fi
 }
 
-    dnf install python3 gcc python3-devel -y &>>$LOG_FILE
-    VALIDATE $? "Installing python"
+dnf install python3 gcc python3-devel -y &>>$LOG_FILE
 
-    id roboshop &>>$LOG_FILE
+id roboshop &>>$LOG_FILE
 if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
     VALIDATE $? "Creating system user"
@@ -42,9 +40,8 @@ else
     echo -e "User already exist ... $Y SKIPPING $N"
 fi
 
-
-   mkdir -p /app
-    VALIDATE $? "Creating app directory"
+mkdir -p /app
+VALIDATE $? "Creating app directory"
 
 curl -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip &>>$LOG_FILE
 VALIDATE $? "Downloading payment application"
@@ -61,10 +58,7 @@ VALIDATE $? "unzip payment"
 pip3 install -r requirements.txt &>>$LOG_FILE
 
 cp $SCRIPT_DIR/payment.service /etc/systemd/system/payment.service
-
 systemctl daemon-reload
-systemctl enable payment &>>$LOG_FILE
-VALIDATE $? "Enabling payment"
+systemctl enable payment  &>>$LOG_FILE
 
 systemctl restart payment
-
